@@ -120,13 +120,16 @@ function initializeCalculator() {
 
 // Setup event listeners
 function setupEventListeners() {
-    // Loan type selection
-    document.querySelectorAll('.loan-type-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const type = this.getAttribute('data-type');
-            selectLoanType(type);
+    // Loan type selection - only if loan type cards exist (on index page)
+    const loanTypeCards = document.querySelectorAll('.loan-type-card');
+    if (loanTypeCards.length > 0) {
+        loanTypeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const type = this.getAttribute('data-type');
+                selectLoanType(type);
+            });
         });
-    });
+    }
 
     // Currency selection
     document.getElementById('currencySelect').addEventListener('change', function() {
@@ -135,7 +138,29 @@ function setupEventListeners() {
         updateAmountRange();
     });
 
-
+    // Calculate button - add event listener (in addition to onclick attribute)
+    const calculateButton = document.getElementById('calculateBtn');
+    if (calculateButton) {
+        calculateButton.addEventListener('click', calculateEMI);
+    }
+    
+    // Reset button - add event listener (in addition to onclick attribute)
+    const resetButton = document.getElementById('resetBtn');
+    if (resetButton) {
+        resetButton.addEventListener('click', resetCalculator);
+    }
+    
+    // Export button - add event listener
+    const exportButton = document.getElementById('exportBtn');
+    if (exportButton) {
+        exportButton.addEventListener('click', exportToPDF);
+    }
+    
+    // Share button - add event listener
+    const shareButton = document.getElementById('shareBtn');
+    if (shareButton) {
+        shareButton.addEventListener('click', shareResults);
+    }
 
     // Real-time EMI preview on input change
     document.getElementById('loanAmount').addEventListener('input', debounce(updateEMIPreview, 500));
@@ -157,12 +182,21 @@ function toggleHomeLoanExtras(show) {
 // Update selectLoanType to show/hide extras
 function selectLoanType(type) {
     selectedLoanType = type;
-    // Remove active class from all cards
-    document.querySelectorAll('.loan-type-card').forEach(card => {
-        card.classList.remove('active');
-    });
-    // Add active class to selected card
-    document.querySelector(`[data-type="${type}"]`).classList.add('active');
+    
+    // Only manipulate loan type cards if they exist (on index page)
+    const loanTypeCards = document.querySelectorAll('.loan-type-card');
+    if (loanTypeCards.length > 0) {
+        // Remove active class from all cards
+        loanTypeCards.forEach(card => {
+            card.classList.remove('active');
+        });
+        // Add active class to selected card
+        const selectedCard = document.querySelector(`[data-type="${type}"]`);
+        if (selectedCard) {
+            selectedCard.classList.add('active');
+        }
+    }
+    
     // Update UI based on loan type
     updateLoanTypeUI(type);
     // Show/hide home loan extras
@@ -173,29 +207,11 @@ function selectLoanType(type) {
 function updateLoanTypeUI(type) {
     const data = loanTypeData[type];
     
-    // Update page title
-    document.title = `${data.name} EMI Calculator - Smart EMI Calculator`;
-    
-    // Update header with safer DOM manipulation
-    const header = document.querySelector('.display-4');
-    
-    // Clear existing content
-    while (header.firstChild) {
-        header.removeChild(header.firstChild);
-    }
-    
-    // Create icon element
-    const icon = document.createElement('i');
-    icon.className = `fas ${data.icon} me-3`;
-    header.appendChild(icon);
-    
-    // Add text node
-    const text = document.createTextNode(`${data.name} EMI Calculator`);
-    header.appendChild(text);
-    
-    // Update description
+    // Update description - only if it exists (on index page)
     const description = document.querySelector('.lead');
-    description.textContent = `Calculate EMI for ${data.name.toLowerCase()} with detailed breakdown and amortization schedule`;
+    if (description) {
+        description.textContent = `Calculate EMI for ${data.name.toLowerCase()} with detailed breakdown and amortization schedule`;
+    }
 }
 
 // Update UI based on selected currency
@@ -308,17 +324,32 @@ function updateEMIPreview() {
 
 // Main EMI calculation function
 function calculateEMI() {
-    // Get input values
-    let amount = parseFloat(document.getElementById('loanAmount').value);
-    const rate = parseFloat(document.getElementById('interestRate').value);
-    const tenure = parseFloat(document.getElementById('loanTenureMonths').value);
+    // Get input values with null checks
+    const loanAmountEl = document.getElementById('loanAmount');
+    const interestRateEl = document.getElementById('interestRate');
+    const loanTenureEl = document.getElementById('loanTenureMonths');
+    
+    if (!loanAmountEl || !interestRateEl || !loanTenureEl) {
+        showError('Required input fields are missing. Please refresh the page.');
+        return;
+    }
+    
+    let amount = parseFloat(loanAmountEl.value);
+    const rate = parseFloat(interestRateEl.value);
+    const tenure = parseFloat(loanTenureEl.value);
 
     let downPayment = 0, processingFees = 0, insurancePremium = 0, taxDeduction = 0;
     if (selectedLoanType === 'home') {
-        downPayment = parseFloat(document.getElementById('downPayment').value) || 0;
-        processingFees = parseFloat(document.getElementById('processingFees').value) || 0;
-        insurancePremium = parseFloat(document.getElementById('insurancePremium').value) || 0;
-        taxDeduction = parseFloat(document.getElementById('taxDeduction').value) || 0;
+        const downPaymentEl = document.getElementById('downPayment');
+        const processingFeesEl = document.getElementById('processingFees');
+        const insurancePremiumEl = document.getElementById('insurancePremium');
+        const taxDeductionEl = document.getElementById('taxDeduction');
+        
+        downPayment = downPaymentEl ? parseFloat(downPaymentEl.value) || 0 : 0;
+        processingFees = processingFeesEl ? parseFloat(processingFeesEl.value) || 0 : 0;
+        insurancePremium = insurancePremiumEl ? parseFloat(insurancePremiumEl.value) || 0 : 0;
+        taxDeduction = taxDeductionEl ? parseFloat(taxDeductionEl.value) || 0 : 0;
+        
         // Subtract down payment, add fees/premium
         amount = Math.max(0, amount - downPayment + processingFees + insurancePremium);
     }
@@ -351,6 +382,31 @@ function calculateEMI() {
 
             // Show results section
             document.getElementById('resultsSection').classList.remove('d-none');
+            
+            // Hide loan info section when results are displayed
+            const loanInfoIds = {
+                'home': 'homeLoanInfo',
+                'car': 'carLoanInfo',
+                'personal': 'personalLoanInfo',
+                'education': 'educationLoanInfo'
+            };
+            
+            // Try to hide all possible loan info sections to ensure it works
+            Object.values(loanInfoIds).forEach(function(infoId) {
+                const loanInfo = document.getElementById(infoId);
+                if (loanInfo) {
+                    loanInfo.classList.add('d-none');
+                }
+            });
+            
+            // Also try the specific one for the selected loan type
+            const loanInfoId = loanInfoIds[selectedLoanType];
+            if (loanInfoId) {
+                const loanInfo = document.getElementById(loanInfoId);
+                if (loanInfo) {
+                    loanInfo.classList.add('d-none');
+                }
+            }
 
             // Scroll to results
             document.getElementById('resultsSection').scrollIntoView({ 
@@ -554,7 +610,7 @@ function generateAmortizationSchedule(principal, rate, tenure, emi) {
             
             const expandButton = document.createElement('button');
             expandButton.className = 'btn btn-outline-primary btn-sm';
-            expandButton.onclick = function() { toggleAmortizationView(); };
+            expandButton.addEventListener('click', function() { toggleAmortizationView(); });
             
             const icon = document.createElement('i');
             icon.className = 'fas fa-chevron-down me-2';
@@ -657,6 +713,33 @@ function resetCalculator() {
     updateAmountRange();
     
     document.getElementById('resultsSection').classList.add('d-none');
+    
+    // Show loan info section again when reset
+    const loanInfoIds = {
+        'home': 'homeLoanInfo',
+        'car': 'carLoanInfo',
+        'personal': 'personalLoanInfo',
+        'education': 'educationLoanInfo'
+    };
+    
+    // Show only the current loan type's info section
+    const loanInfoId = loanInfoIds[selectedLoanType];
+    if (loanInfoId) {
+        const loanInfo = document.getElementById(loanInfoId);
+        if (loanInfo) {
+            loanInfo.classList.remove('d-none');
+        }
+    }
+    
+    // Also ensure all other loan info sections are hidden
+    Object.entries(loanInfoIds).forEach(function([type, infoId]) {
+        if (type !== selectedLoanType) {
+            const loanInfo = document.getElementById(infoId);
+            if (loanInfo) {
+                loanInfo.classList.add('d-none');
+            }
+        }
+    });
     
     // Clear validation styling
     document.querySelectorAll('.is-invalid').forEach(input => {
@@ -913,14 +996,23 @@ function generateAmortizationScheduleWithBalloon(principal, rate, tenure, emi, b
 
         if (month === 12 && tenure > 12) {
             const expandRow = document.createElement('tr');
-            expandRow.innerHTML = `
-                <td colspan="5" class="text-center">
-                    <button class="btn btn-outline-primary btn-sm" onclick="toggleAmortizationView()">
-                        <i class="fas fa-chevron-down me-2"></i>
-                        Show More (${tenure - 12} months)
-                    </button>
-                </td>
-            `;
+            const expandCell = document.createElement('td');
+            expandCell.colSpan = 5;
+            expandCell.className = 'text-center';
+            
+            const expandButton = document.createElement('button');
+            expandButton.className = 'btn btn-outline-primary btn-sm';
+            expandButton.addEventListener('click', function() { toggleAmortizationView(); });
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-chevron-down me-2';
+            expandButton.appendChild(icon);
+            
+            const buttonText = document.createTextNode(`Show More (${tenure - 12} months)`);
+            expandButton.appendChild(buttonText);
+            
+            expandCell.appendChild(expandButton);
+            expandRow.appendChild(expandCell);
             tableBody.appendChild(expandRow);
             break;
         }
@@ -1208,14 +1300,23 @@ function generateEducationSchedule(principal, rate, repayMonths, emi, opts) {
         tableBody.appendChild(row);
         if (m === 12 && holdMonths > 12) {
             const expandRow = document.createElement('tr');
-            expandRow.innerHTML = `
-                <td colspan="5" class="text-center">
-                    <button class="btn btn-outline-primary btn-sm" onclick="toggleAmortizationView()">
-                        <i class="fas fa-chevron-down me-2"></i>
-                        Show More (${holdMonths - 12} months)
-                    </button>
-                </td>
-            `;
+            const expandCell = document.createElement('td');
+            expandCell.colSpan = 5;
+            expandCell.className = 'text-center';
+            
+            const expandButton = document.createElement('button');
+            expandButton.className = 'btn btn-outline-primary btn-sm';
+            expandButton.addEventListener('click', function() { toggleAmortizationView(); });
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-chevron-down me-2';
+            expandButton.appendChild(icon);
+            
+            const buttonText = document.createTextNode(`Show More (${holdMonths - 12} months)`);
+            expandButton.appendChild(buttonText);
+            
+            expandCell.appendChild(expandButton);
+            expandRow.appendChild(expandCell);
             tableBody.appendChild(expandRow);
             break;
         }
@@ -1241,14 +1342,23 @@ function generateEducationSchedule(principal, rate, repayMonths, emi, opts) {
 
         if (holdMonths === 0 && month === 12 && repayMonths > 12) {
             const expandRow = document.createElement('tr');
-            expandRow.innerHTML = `
-                <td colspan="5" class="text-center">
-                    <button class="btn btn-outline-primary btn-sm" onclick="toggleAmortizationView()">
-                        <i class="fas fa-chevron-down me-2"></i>
-                        Show More (${repayMonths - 12} months)
-                    </button>
-                </td>
-            `;
+            const expandCell = document.createElement('td');
+            expandCell.colSpan = 5;
+            expandCell.className = 'text-center';
+            
+            const expandButton = document.createElement('button');
+            expandButton.className = 'btn btn-outline-primary btn-sm';
+            expandButton.addEventListener('click', function() { toggleAmortizationView(); });
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-chevron-down me-2';
+            expandButton.appendChild(icon);
+            
+            const buttonText = document.createTextNode(`Show More (${repayMonths - 12} months)`);
+            expandButton.appendChild(buttonText);
+            
+            expandCell.appendChild(expandButton);
+            expandRow.appendChild(expandCell);
             tableBody.appendChild(expandRow);
             break;
         }

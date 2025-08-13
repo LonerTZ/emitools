@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Home Loan EMI Calculator. Calculate monthly EMI, total interest, and view detailed amortization schedule for your home loan or mortgage.">
+    <meta name="keywords" content="home loan EMI calculator, mortgage calculator, home loan, property loan, EMI calculation, housing loan">
+    <meta name="author" content="Smart EMI Calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/home-loan.html">
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    <title>Home Loan EMI Calculator - Calculate Mortgage EMI, Interest & Amortization Schedule</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
+    <link href="styles/index.css" rel="stylesheet">
+    
+    <!-- Resource hints for critical resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Structured Data - Calculator Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Home Loan EMI Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free Home Loan EMI Calculator. Calculate monthly EMI, total interest, and view detailed amortization schedule for your home loan or mortgage."
+    }
+    </script>
+    
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://example.com"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Home Loan EMI Calculator",
+        "item": "https://example.com/home-loan.html"
+      }]
+    }
+    </script>
+</head>
+<body>
+    <!-- Ezoic - top_of_page - top_of_page -->
+    <div id="ezoic-pub-ad-placeholder-101" class="ad-container ad-container-horizontal"></div>
+    <!-- End Ezoic - top_of_page -->
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <header class="calculator-header text-center mb-5">
+                    <h1 class="display-4 fw-bold text-white mb-3"><i class="fas fa-home me-3"></i>Home Loan EMI Calculator</h1>
+                    <p class="lead text-white mb-4">Calculate your monthly EMI for home loans, mortgages, and property financing</p>
+                    <div class="mt-3">
+                        <a href="index.html" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Back to All Calculators
+                        </a>
+                    </div>
+                </header>
+                
+                <!-- Main Calculator Card -->
+                <div class="calculator-card p-4 p-md-5 mb-4 fade-in">
+                    <h2 class="fw-bold mb-4 text-center">Calculate Your Home Loan EMI</h2>
+                    
+                    <!-- Loan Details Form -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="currencySelect" class="form-label fw-bold">
+                                <i class="fas fa-globe me-2"></i>
+                                Currency
+                            </label>
+                            <select class="form-select" id="currencySelect">
+                                <option value="INR" data-symbol="₹" data-name="Indian Rupee">₹ Indian Rupee (INR)</option>
+                                <option value="USD" data-symbol="$" data-name="US Dollar">$ US Dollar (USD)</option>
+                                <option value="EUR" data-symbol="€" data-name="Euro">€ Euro (EUR)</option>
+                                <option value="GBP" data-symbol="£" data-name="British Pound">£ British Pound (GBP)</option>
+                                <option value="JPY" data-symbol="¥" data-name="Japanese Yen">¥ Japanese Yen (JPY)</option>
+                                <option value="CAD" data-symbol="C$" data-name="Canadian Dollar">C$ Canadian Dollar (CAD)</option>
+                                <option value="AUD" data-symbol="A$" data-name="Australian Dollar">A$ Australian Dollar (AUD)</option>
+                                <option value="CHF" data-symbol="CHF" data-name="Swiss Franc">CHF Swiss Franc (CHF)</option>
+                                <option value="CNY" data-symbol="¥" data-name="Chinese Yuan">¥ Chinese Yuan (CNY)</option>
+                                <option value="SGD" data-symbol="S$" data-name="Singapore Dollar">S$ Singapore Dollar (SGD)</option>
+                                <option value="HKD" data-symbol="HK$" data-name="Hong Kong Dollar">HK$ Hong Kong Dollar (HKD)</option>
+                                <option value="NZD" data-symbol="NZ$" data-name="New Zealand Dollar">NZ$ New Zealand Dollar (NZD)</option>
+                                <option value="KRW" data-symbol="₩" data-name="South Korean Won">₩ South Korean Won (KRW)</option>
+                                <option value="TZS" data-symbol="TSh" data-name="Tanzanian Shilling">TSh Tanzanian Shilling (TZS)</option>
+                            </select>
+                            <div class="form-text">Select your preferred currency</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="loanAmount" class="form-label fw-bold">
+                                <i class="fas fa-money-bill-wave me-2"></i>
+                                Loan Amount
+                            </label>
+                            <input type="number" class="form-control" id="loanAmount" placeholder="Enter loan amount" min="1000" step="1000">
+                            <div class="form-text">Range: <span id="amountRange">₹1,000 - ₹10,00,00,000</span></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="downPayment" class="form-label fw-bold">
+                                <i class="fas fa-wallet me-2"></i>
+                                Down Payment
+                            </label>
+                            <input type="number" class="form-control" id="downPayment" placeholder="Enter down payment (optional)" min="0" step="1000">
+                            <div class="form-text">Reduces the principal amount</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="processingFees" class="form-label fw-bold">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>
+                                Processing Fees
+                            </label>
+                            <input type="number" class="form-control" id="processingFees" placeholder="Enter processing fees (optional)" min="0" step="100">
+                            <div class="form-text">Added to the principal</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="insurancePremium" class="form-label fw-bold">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Insurance Premium
+                            </label>
+                            <input type="number" class="form-control" id="insurancePremium" placeholder="Enter insurance premium (optional)" min="0" step="100">
+                            <div class="form-text">Added to the principal</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="taxDeduction" class="form-label fw-bold">
+                                <i class="fas fa-percentage me-2"></i>
+                                Tax Deduction on Interest (%)
+                            </label>
+                            <input type="number" class="form-control" id="taxDeduction" placeholder="e.g. 20 (optional)" min="0" max="100" step="0.1">
+                            <div class="form-text">Enter tax deduction percentage on interest (if any)</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="interestRate" class="form-label fw-bold">
+                                <i class="fas fa-percentage me-2"></i>
+                                Interest Rate (% p.a.)
+                            </label>
+                            <input type="number" class="form-control" id="interestRate" placeholder="Enter interest rate" min="1" max="30" step="0.1">
+                            <div class="form-text">Range: 1% - 30% per annum</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="loanTenureMonths" class="form-label fw-bold">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                Loan Tenure (Months)
+                            </label>
+                            <input type="number" class="form-control" id="loanTenureMonths" placeholder="Enter tenure in months" min="1" max="360" step="1">
+                            <div class="form-text">Range: 1 - 360 months (1 month to 30 years)</div>
+                        </div>
+                    </div>
+
+                    <!-- Calculate Button -->
+                    <div class="text-center">
+                        <button id="calculateBtn" class="btn btn-calculate btn-lg text-white me-3">
+                            <i class="fas fa-calculator me-2"></i>
+                            Calculate EMI
+                        </button>
+                        <button id="resetBtn" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-redo me-2"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" class="d-none">
+                    <!-- EMI Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="result-card text-center">
+                                <h6 class="mb-2">Monthly EMI</h6>
+                                <div class="emi-amount" id="monthlyEMI">₹0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="result-card text-center result-card-warning">
+                                <h6 class="mb-2">Total Interest</h6>
+                                <div class="emi-amount" id="totalInterest">₹0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="result-card text-center result-card-danger">
+                                <h6 class="mb-2">Total Amount</h6>
+                                <div class="emi-amount" id="totalAmount">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loan Summary -->
+                    <div class="calculator-card p-4 mb-4 slide-in">
+                        <h5 class="fw-bold mb-3 text-dark">
+                            <i class="fas fa-chart-pie me-2"></i>
+                            Loan Summary
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-semibold">Principal Amount:</span>
+                                    <span class="fw-bold text-primary" id="principalAmount">₹0</span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-primary progress-bar-zero" id="principalBar"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-semibold">Interest Amount:</span>
+                                    <span class="fw-bold text-warning" id="interestAmount">₹0</span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-warning progress-bar-zero" id="interestBar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Amortization Schedule -->
+                    <div class="calculator-card p-4 slide-in">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0 text-dark">
+                                <i class="fas fa-table me-2"></i>
+                                Amortization Schedule
+                            </h5>
+                            <div class="btn-group" role="group">
+                                <button id="exportBtn" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-download me-2"></i>
+                                    Export PDF
+                                </button>
+                                <button id="shareBtn" class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-share-alt me-2"></i>
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover amortization-table">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>EMI</th>
+                                        <th>Principal</th>
+                                        <th>Interest</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortizationTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Home Loan Information -->
+                <div id="homeLoanInfo" class="calculator-card p-4 p-md-5 mt-4 fade-in">
+                    <h3 class="fw-bold mb-4">Home Loan EMI Calculator: Everything You Need to Know</h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">What is a Home Loan EMI?</h4>
+                        <p>A Home Loan EMI (Equated Monthly Installment) is a fixed payment amount made by a borrower to a lender at a specified date each calendar month for a home or property loan. EMIs are used to pay off both interest and principal each month so that over a specified number of years, the loan is paid off in full.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Factors Affecting Home Loan EMI</h4>
+                        <ul>
+                            <li><strong>Loan Amount:</strong> The principal amount borrowed for purchasing the property.</li>
+                            <li><strong>Interest Rate:</strong> The rate at which interest is charged on the loan amount.</li>
+                            <li><strong>Loan Tenure:</strong> The duration for which the loan is taken, typically ranging from 5 to 30 years.</li>
+                            <li><strong>Down Payment:</strong> A higher down payment reduces the loan amount, resulting in lower EMIs.</li>
+                            <li><strong>Processing Fees:</strong> One-time fees charged by lenders for processing the loan application.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Benefits of Using Our Home Loan EMI Calculator</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-primary">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Plan Your Budget</h5>
+                                        <p>Know exactly how much you need to pay each month, helping you plan your finances better.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-primary">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Compare Loan Options</h5>
+                                        <p>Compare different loan amounts, interest rates, and tenures to find the best option for you.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-primary">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Understand Total Cost</h5>
+                                        <p>See the total interest paid over the loan tenure and the total amount you'll pay.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-primary">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Amortization Schedule</h5>
+                                        <p>View a detailed month-by-month breakdown of your loan repayment.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Tips for Managing Your Home Loan EMI</h4>
+                        <ol>
+                            <li><strong>Make a larger down payment</strong> to reduce the loan amount and EMI.</li>
+                            <li><strong>Opt for a longer tenure</strong> if you want lower EMIs, but be aware that you'll pay more interest overall.</li>
+                            <li><strong>Consider prepayment</strong> when you have surplus funds to reduce the principal amount and interest burden.</li>
+                            <li><strong>Compare interest rates</strong> from different lenders before finalizing your home loan.</li>
+                            <li><strong>Check for tax benefits</strong> available on home loan interest and principal repayment.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <!-- Ezoic - bottom_of_page - bottom_of_page -->
+                <div id="ezoic-pub-ad-placeholder-102" class="ad-container ad-container-horizontal"></div>
+                <!-- End Ezoic - bottom_of_page -->
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Smart EMI Calculator</h5>
+                    <p class="small">A free tool to calculate EMI for various loan types</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="small">© 2025 Smart EMI Calculator. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous" defer></script>
+    <script src="script.js" defer></script>
+    <script src="js/ad-manager.js" async></script>
+    
+    <script src="js/home-loan-init.js" defer></script>
+</body>
+</html>

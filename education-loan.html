@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Education Loan EMI Calculator. Calculate monthly EMI, total interest, and view detailed amortization schedule for your education loan.">
+    <meta name="keywords" content="education loan EMI calculator, student loan, study loan, education finance, college loan, university loan, EMI calculation">
+    <meta name="author" content="Smart EMI Calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/education-loan.html">
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    <title>Education Loan EMI Calculator - Calculate Student Loan EMI & Repayment Schedule</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
+    <link href="styles/index.css" rel="stylesheet">
+    
+    <!-- Resource hints for critical resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Structured Data - Calculator Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Education Loan EMI Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free Education Loan EMI Calculator. Calculate monthly EMI, total interest, and view detailed amortization schedule for your education loan."
+    }
+    </script>
+    
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://example.com"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Education Loan EMI Calculator",
+        "item": "https://example.com/education-loan.html"
+      }]
+    }
+    </script>
+</head>
+<body>
+    <!-- Ezoic - top_of_page - top_of_page -->
+    <div id="ezoic-pub-ad-placeholder-101" class="ad-container ad-container-horizontal"></div>
+    <!-- End Ezoic - top_of_page -->
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header -->
+                <header class="calculator-header text-center mb-5">
+                    <h1 class="display-4 fw-bold text-white mb-3"><i class="fas fa-graduation-cap me-3"></i>Education Loan EMI Calculator</h1>
+                    <p class="lead text-white mb-4">Calculate your monthly EMI for student loans, study loans, and education financing</p>
+                    <div class="mt-3">
+                        <a href="index.html" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Back to All Calculators
+                        </a>
+                    </div>
+                </header>
+                
+                <!-- Main Calculator Card -->
+                <div class="calculator-card p-4 p-md-5 mb-4 fade-in">
+                    <h2 class="fw-bold mb-4 text-center">Calculate Your Education Loan EMI</h2>
+                    
+                    <!-- Loan Details Form -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="currencySelect" class="form-label fw-bold">
+                                <i class="fas fa-globe me-2"></i>
+                                Currency
+                            </label>
+                            <select class="form-select" id="currencySelect">
+                                <option value="INR" data-symbol="₹" data-name="Indian Rupee">₹ Indian Rupee (INR)</option>
+                                <option value="USD" data-symbol="$" data-name="US Dollar">$ US Dollar (USD)</option>
+                                <option value="EUR" data-symbol="€" data-name="Euro">€ Euro (EUR)</option>
+                                <option value="GBP" data-symbol="£" data-name="British Pound">£ British Pound (GBP)</option>
+                                <option value="JPY" data-symbol="¥" data-name="Japanese Yen">¥ Japanese Yen (JPY)</option>
+                                <option value="CAD" data-symbol="C$" data-name="Canadian Dollar">C$ Canadian Dollar (CAD)</option>
+                                <option value="AUD" data-symbol="A$" data-name="Australian Dollar">A$ Australian Dollar (AUD)</option>
+                                <option value="CHF" data-symbol="CHF" data-name="Swiss Franc">CHF Swiss Franc (CHF)</option>
+                                <option value="CNY" data-symbol="¥" data-name="Chinese Yuan">¥ Chinese Yuan (CNY)</option>
+                                <option value="SGD" data-symbol="S$" data-name="Singapore Dollar">S$ Singapore Dollar (SGD)</option>
+                                <option value="HKD" data-symbol="HK$" data-name="Hong Kong Dollar">HK$ Hong Kong Dollar (HKD)</option>
+                                <option value="NZD" data-symbol="NZ$" data-name="New Zealand Dollar">NZ$ New Zealand Dollar (NZD)</option>
+                                <option value="KRW" data-symbol="₩" data-name="South Korean Won">₩ South Korean Won (KRW)</option>
+                                <option value="TZS" data-symbol="TSh" data-name="Tanzanian Shilling">TSh Tanzanian Shilling (TZS)</option>
+                            </select>
+                            <div class="form-text">Select your preferred currency</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="loanAmount" class="form-label fw-bold">
+                                <i class="fas fa-money-bill-wave me-2"></i>
+                                Loan Amount
+                            </label>
+                            <input type="number" class="form-control" id="loanAmount" placeholder="Enter loan amount" min="1000" step="1000">
+                            <div class="form-text">Range: <span id="amountRange">₹1,000 - ₹50,00,000</span></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="educationCourse" class="form-label fw-bold">
+                                <i class="fas fa-graduation-cap me-2"></i>
+                                Course Type
+                            </label>
+                            <select class="form-select" id="educationCourse">
+                                <option value="domestic">Domestic Education</option>
+                                <option value="abroad">Study Abroad</option>
+                                <option value="professional">Professional Course</option>
+                                <option value="vocational">Vocational Training</option>
+                            </select>
+                            <div class="form-text">Affects interest rate and loan terms</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="educationMoratorium" class="form-label fw-bold">
+                                <i class="fas fa-hourglass-half me-2"></i>
+                                Moratorium Period (Months)
+                            </label>
+                            <input type="number" class="form-control" id="educationMoratorium" placeholder="e.g. 12 (optional)" min="0" max="48" step="1">
+                            <div class="form-text">Grace period after course completion</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="interestRate" class="form-label fw-bold">
+                                <i class="fas fa-percentage me-2"></i>
+                                Interest Rate (% p.a.)
+                            </label>
+                            <input type="number" class="form-control" id="interestRate" placeholder="Enter interest rate" min="1" max="15" step="0.1">
+                            <div class="form-text">Range: 1% - 15% per annum</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="loanTenureMonths" class="form-label fw-bold">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                Loan Tenure (Months)
+                            </label>
+                            <input type="number" class="form-control" id="loanTenureMonths" placeholder="Enter tenure in months" min="12" max="180" step="1">
+                            <div class="form-text">Range: 12 - 180 months (1 to 15 years)</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="educationProcessingFeePct" class="form-label fw-bold">
+                                <i class="fas fa-file-invoice me-2"></i>
+                                Processing Fee (%)
+                            </label>
+                            <input type="number" class="form-control" id="educationProcessingFeePct" placeholder="e.g. 1 (optional)" min="0" max="2" step="0.1">
+                            <div class="form-text">Typically 0.5% - 1%, deducted from disbursed amount</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="educationCollateral" class="form-label fw-bold">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Collateral
+                            </label>
+                            <select class="form-select" id="educationCollateral">
+                                <option value="none">No Collateral</option>
+                                <option value="property">Property</option>
+                                <option value="fd">Fixed Deposit</option>
+                                <option value="insurance">Insurance Policy</option>
+                            </select>
+                            <div class="form-text">May affect interest rate</div>
+                        </div>
+                    </div>
+
+                    <!-- Calculate Button -->
+                    <div class="text-center">
+                        <button id="calculateBtn" class="btn btn-calculate btn-lg text-white me-3">
+                            <i class="fas fa-calculator me-2"></i>
+                            Calculate EMI
+                        </button>
+                        <button id="resetBtn" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-redo me-2"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" class="d-none">
+                    <!-- EMI Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="result-card text-center">
+                                <h6 class="mb-2">Monthly EMI</h6>
+                                <div class="emi-amount" id="monthlyEMI">₹0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="result-card text-center result-card-warning">
+                                <h6 class="mb-2">Total Interest</h6>
+                                <div class="emi-amount" id="totalInterest">₹0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="result-card text-center result-card-danger">
+                                <h6 class="mb-2">Total Amount</h6>
+                                <div class="emi-amount" id="totalAmount">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loan Summary -->
+                    <div class="calculator-card p-4 mb-4 slide-in">
+                        <h5 class="fw-bold mb-3 text-dark">
+                            <i class="fas fa-chart-pie me-2"></i>
+                            Loan Summary
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-semibold">Principal Amount:</span>
+                                    <span class="fw-bold text-primary" id="principalAmount">₹0</span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-primary progress-bar-zero" id="principalBar"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-semibold">Interest Amount:</span>
+                                    <span class="fw-bold text-warning" id="interestAmount">₹0</span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar bg-warning progress-bar-zero" id="interestBar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Amortization Schedule -->
+                    <div class="calculator-card p-4 slide-in">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0 text-dark">
+                                <i class="fas fa-table me-2"></i>
+                                Amortization Schedule
+                            </h5>
+                            <div class="btn-group" role="group">
+                                <button id="exportBtn" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-download me-2"></i>
+                                    Export PDF
+                                </button>
+                                <button id="shareBtn" class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-share-alt me-2"></i>
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover amortization-table">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>EMI</th>
+                                        <th>Principal</th>
+                                        <th>Interest</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortizationTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Education Loan Information -->
+                <div id="educationLoanInfo" class="calculator-card p-4 p-md-5 mt-4 fade-in">
+                    <h3 class="fw-bold mb-4">Education Loan EMI Calculator: Everything You Need to Know</h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">What is an Education Loan EMI?</h4>
+                        <p>An Education Loan EMI (Equated Monthly Installment) is a fixed payment amount made by a borrower to a lender at a specified date each calendar month for an education loan. Education loans are designed to cover tuition fees, living expenses, books, equipment, and other education-related costs for students pursuing higher education.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Unique Features of Education Loans</h4>
+                        <ul>
+                            <li><strong>Moratorium Period:</strong> Most education loans offer a grace period (moratorium) during which you don't have to pay EMIs. This period typically includes the course duration plus 6-12 months after course completion or getting a job, whichever is earlier.</li>
+                            <li><strong>Simple Interest During Study:</strong> Many lenders charge only simple interest during the study period, which is added to the principal amount after the moratorium period.</li>
+                            <li><strong>Tax Benefits:</strong> In many countries, the interest paid on education loans is eligible for tax deductions under income tax laws.</li>
+                            <li><strong>Lower Interest Rates:</strong> Education loans often have lower interest rates compared to personal loans as they are considered as priority sector lending by many banks.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Factors Affecting Education Loan EMI</h4>
+                        <ul>
+                            <li><strong>Loan Amount:</strong> The principal amount borrowed for education.</li>
+                            <li><strong>Interest Rate:</strong> The rate at which interest is charged on the loan amount.</li>
+                            <li><strong>Loan Tenure:</strong> The duration for which the loan is taken, typically ranging from 5 to 15 years.</li>
+                            <li><strong>Moratorium Period:</strong> The grace period during which only interest is charged, or no payment is required.</li>
+                            <li><strong>Course Type:</strong> Domestic or international education, which affects the loan amount and interest rate.</li>
+                            <li><strong>Collateral:</strong> Whether the loan is secured with collateral or not, which can affect the interest rate.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Tips for Managing Education Loan EMIs</h4>
+                        <ol>
+                            <li><strong>Start paying interest during the study period</strong> if possible, to reduce the overall loan burden.</li>
+                            <li><strong>Consider part-time work</strong> during studies to start repaying the loan early.</li>
+                            <li><strong>Explore scholarship opportunities</strong> to reduce the loan amount needed.</li>
+                            <li><strong>Prepay the loan</strong> whenever possible, as most education loans don't have prepayment penalties.</li>
+                            <li><strong>Claim tax benefits</strong> on the interest paid on education loans to reduce your tax liability.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="fw-bold">Documents Required for Education Loans</h4>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-warning">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Academic Documents</h5>
+                                        <p>Mark sheets of previous qualifying examinations, admission letter from the institution, course fee structure.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-warning">
+                                        <i class="fas fa-id-card"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Identity & Address Proof</h5>
+                                        <p>Passport, voter ID, driving license, Aadhaar card, PAN card, utility bills.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-warning">
+                                        <i class="fas fa-money-check-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Income Proof</h5>
+                                        <p>Salary slips, income tax returns, bank statements of parents/guardian/co-applicant.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <div class="me-3 text-warning">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="fw-bold">Collateral Documents</h5>
+                                        <p>Property documents, fixed deposit receipts, insurance policies (if applicable).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ezoic - bottom_of_page - bottom_of_page -->
+                <div id="ezoic-pub-ad-placeholder-102" class="ad-container ad-container-horizontal"></div>
+                <!-- End Ezoic - bottom_of_page -->
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Smart EMI Calculator</h5>
+                    <p class="small">A free tool to calculate EMI for various loan types</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="small">© 2025 Smart EMI Calculator. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous" defer></script>
+    <script src="script.js" defer></script>
+    <script src="js/ad-manager.js" async></script>
+    
+    <script src="js/education-loan-init.js" defer></script>
+</body>
+</html>
