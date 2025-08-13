@@ -34,31 +34,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize calculator with default values
 function initializeCalculator() {
-    // Check if there's a demo example to load
+    // Check if there's a demo example to load with enhanced security
     const demoExample = localStorage.getItem('emiExample');
     
     if (demoExample) {
-        // Load demo example
-        const example = JSON.parse(demoExample);
-        selectLoanType(example.loanType);
-        
-        // Set currency if specified
-        if (example.currency) {
-            document.getElementById('currencySelect').value = example.currency;
-            selectedCurrency = example.currency;
+        try {
+            // Load and validate demo example
+            const example = JSON.parse(demoExample);
+            
+            // Validate loan type
+            const validLoanTypes = ['home', 'car', 'personal', 'education'];
+            if (example.loanType && validLoanTypes.includes(example.loanType)) {
+                selectLoanType(example.loanType);
+            } else {
+                selectLoanType('home'); // Default to home if invalid
+            }
+            
+            // Set currency if specified and valid
+            const validCurrencies = ['USD', 'EUR', 'GBP', 'JPY', 'INR', 'CAD', 'AUD', 'CHF', 'CNY', 'SGD', 'HKD', 'NZD', 'KRW'];
+            if (example.currency && validCurrencies.includes(example.currency)) {
+                document.getElementById('currencySelect').value = example.currency;
+                selectedCurrency = example.currency;
+                updateCurrencyUI();
+            }
+            
+            // Validate and set amount
+            if (example.amount && !isNaN(Number(example.amount))) {
+                const amount = Number(example.amount);
+                const currency = currencyData[selectedCurrency];
+                if (amount >= currency.minAmount && amount <= currency.maxAmount) {
+                    document.getElementById('loanAmount').value = amount;
+                }
+            }
+            
+            // Validate and set interest rate
+            if (example.rate && !isNaN(Number(example.rate))) {
+                const rate = Number(example.rate);
+                if (rate >= 1 && rate <= 30) {
+                    document.getElementById('interestRate').value = rate;
+                }
+            }
+            
+            // Validate and set loan tenure
+            if (example.months && !isNaN(Number(example.months))) {
+                const months = Number(example.months);
+                if (months >= 1 && months <= 360) {
+                    document.getElementById('loanTenureMonths').value = months;
+                }
+            }
+            
+            // Clear the demo data
+            localStorage.removeItem('emiExample');
+            
+            // Auto-calculate the demo
+            setTimeout(() => {
+                calculateEMI();
+            }, 500);
+        } catch (error) {
+            console.error('Error loading demo example:', error);
+            // Clear localStorage on error to prevent future issues
+            localStorage.removeItem('emiExample');
+            // Set default loan type as fallback
+            selectLoanType('home');
         }
-        
-        document.getElementById('loanAmount').value = example.amount;
-        document.getElementById('interestRate').value = example.rate;
-        document.getElementById('loanTenureMonths').value = example.months;
-        
-        // Clear the demo data
-        localStorage.removeItem('emiExample');
-        
-        // Auto-calculate the demo
-        setTimeout(() => {
-            calculateEMI();
-        }, 500);
     } else {
         // Set default loan type
         selectLoanType('home');
@@ -138,9 +176,22 @@ function updateLoanTypeUI(type) {
     // Update page title
     document.title = `${data.name} EMI Calculator - Smart EMI Calculator`;
     
-    // Update header
+    // Update header with safer DOM manipulation
     const header = document.querySelector('.display-4');
-    header.innerHTML = `<i class="fas ${data.icon} me-3"></i>${data.name} EMI Calculator`;
+    
+    // Clear existing content
+    while (header.firstChild) {
+        header.removeChild(header.firstChild);
+    }
+    
+    // Create icon element
+    const icon = document.createElement('i');
+    icon.className = `fas ${data.icon} me-3`;
+    header.appendChild(icon);
+    
+    // Add text node
+    const text = document.createTextNode(`${data.name} EMI Calculator`);
+    header.appendChild(text);
     
     // Update description
     const description = document.querySelector('.lead');
@@ -191,9 +242,25 @@ function setupInputValidation() {
     });
 }
 
-// Validate input field
+// Validate and sanitize input field
 function validateInput(input) {
-    const value = parseFloat(input.value);
+    // Sanitize input - remove any non-numeric characters except decimal point
+    let sanitizedValue = input.value.replace(/[^0-9.]/g, '');
+    
+    // Ensure only one decimal point
+    const decimalCount = (sanitizedValue.match(/\./g) || []).length;
+    if (decimalCount > 1) {
+        sanitizedValue = sanitizedValue.replace(/\./g, function(match, offset) {
+            return offset === sanitizedValue.indexOf('.') ? '.' : '';
+        });
+    }
+    
+    // Update input with sanitized value if different
+    if (sanitizedValue !== input.value) {
+        input.value = sanitizedValue;
+    }
+    
+    const value = parseFloat(sanitizedValue);
     const min = parseFloat(input.min);
     const max = parseFloat(input.max);
     
@@ -326,15 +393,25 @@ function calculateEMI() {
     }, 800);
 }
 
-// Validate all inputs
+// Validate all inputs with enhanced security
 function validateInputs(amount, rate, tenure) {
-    if (!amount || !rate || !tenure) return false;
+    // Check for null, undefined, NaN or zero values
+    if (!amount || !rate || !tenure || isNaN(amount) || isNaN(rate) || isNaN(tenure)) return false;
     
+    // Ensure values are positive numbers
+    if (amount <= 0 || rate <= 0 || tenure <= 0) return false;
+    
+    // Validate against currency limits
     const currency = currencyData[selectedCurrency];
     if (amount < currency.minAmount || amount > currency.maxAmount) return false;
     
+    // Validate rate and tenure within reasonable limits
     if (rate < 1 || rate > 30) return false;
     if (tenure < 1 || tenure > 360) return false;
+    
+    // Additional validation for extreme values that could cause calculation issues
+    if (rate > 100 || tenure > 1200) return false;
+    
     return true;
 }
 
@@ -350,70 +427,144 @@ function calculateEMIAmount(principal, rate, tenure) {
     return Math.round(emi);
 }
 
-// Format currency based on selected currency
+// Format currency based on selected currency with XSS prevention
 function formatCurrency(amount) {
+    // Ensure amount is a valid number
+    if (isNaN(amount) || amount === null || amount === undefined) {
+        return 'Invalid amount';
+    }
+    
+    // Convert to number to ensure no string injection
+    amount = Number(amount);
+    
     const currency = currencyData[selectedCurrency];
-    return currency.symbol + amount.toLocaleString(currency.locale);
+    try {
+        return currency.symbol + amount.toLocaleString(currency.locale);
+    } catch (error) {
+        console.error('Currency formatting error:', error);
+        // Fallback formatting with basic sanitization
+        return currency.symbol + amount.toFixed(0);
+    }
 }
 
-// Display calculation results
+// Display calculation results with sanitization
 function displayResults(emi, totalInterest, totalAmount, principal) {
-    // Update result cards
-    document.getElementById('monthlyEMI').textContent = formatCurrency(emi);
-    document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
-    document.getElementById('totalAmount').textContent = formatCurrency(totalAmount);
+    // Sanitize all values by ensuring they are valid numbers
+    const safeEmi = sanitizeNumber(emi);
+    const safeTotalInterest = sanitizeNumber(totalInterest);
+    const safeTotalAmount = sanitizeNumber(totalAmount);
+    const safePrincipal = sanitizeNumber(principal);
+    
+    // Update result cards using textContent (not innerHTML) to prevent XSS
+    document.getElementById('monthlyEMI').textContent = formatCurrency(safeEmi);
+    document.getElementById('totalInterest').textContent = formatCurrency(safeTotalInterest);
+    document.getElementById('totalAmount').textContent = formatCurrency(safeTotalAmount);
     
     // Update loan summary
-    document.getElementById('principalAmount').textContent = formatCurrency(principal);
-    document.getElementById('interestAmount').textContent = formatCurrency(totalInterest);
+    document.getElementById('principalAmount').textContent = formatCurrency(safePrincipal);
+    document.getElementById('interestAmount').textContent = formatCurrency(safeTotalInterest);
     
-    // Update progress bars
-    const total = principal + totalInterest;
-    const principalPercentage = (principal / total) * 100;
-    const interestPercentage = (totalInterest / total) * 100;
+    // Update progress bars with bounds checking
+    const total = safePrincipal + safeTotalInterest;
+    const principalPercentage = total > 0 ? (safePrincipal / total) * 100 : 0;
+    const interestPercentage = total > 0 ? (safeTotalInterest / total) * 100 : 0;
     
-    document.getElementById('principalBar').style.width = principalPercentage + '%';
-    document.getElementById('interestBar').style.width = interestPercentage + '%';
+    // Ensure percentages are within valid range (0-100)
+    const safePrincipalPercentage = Math.min(Math.max(principalPercentage, 0), 100);
+    const safeInterestPercentage = Math.min(Math.max(interestPercentage, 0), 100);
+    
+    document.getElementById('principalBar').style.width = safePrincipalPercentage + '%';
+    document.getElementById('interestBar').style.width = safeInterestPercentage + '%';
 }
 
-// Generate amortization schedule
+// Helper function to sanitize numbers
+function sanitizeNumber(value) {
+    // Convert to number and handle invalid values
+    const num = Number(value);
+    return isNaN(num) ? 0 : num;
+}
+
+// Generate amortization schedule with enhanced security
 function generateAmortizationSchedule(principal, rate, tenure, emi) {
+    // Sanitize input values
+    principal = sanitizeNumber(principal);
+    rate = sanitizeNumber(rate);
+    tenure = Math.floor(sanitizeNumber(tenure)); // Ensure tenure is an integer
+    emi = sanitizeNumber(emi);
+    
     const monthlyRate = (rate / 100) / 12;
     let balance = principal;
     const tableBody = document.getElementById('amortizationTableBody');
     
-    // Clear existing table
-    tableBody.innerHTML = '';
+    // Clear existing table using safer method
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+    
+    // Limit the number of rows to prevent DoS
+    const maxTenure = Math.min(tenure, 1000);
     
     // Generate rows for each month
-    for (let month = 1; month <= tenure; month++) {
+    for (let month = 1; month <= maxTenure; month++) {
         const interest = balance * monthlyRate;
         const principalPaid = emi - interest;
         balance = balance - principalPaid;
         
-        // Create table row
+        // Create table row using safer DOM methods
         const row = document.createElement('tr');
-        row.innerHTML = `
-            <td class="fw-semibold">${month}</td>
-            <td class="text-success fw-bold">${formatCurrency(Math.round(emi))}</td>
-            <td class="text-primary">${formatCurrency(Math.round(principalPaid))}</td>
-            <td class="text-warning">${formatCurrency(Math.round(interest))}</td>
-            <td class="text-muted">${formatCurrency(Math.max(0, Math.round(balance)))}</td>
-        `;
+        
+        // Create month cell
+        const monthCell = document.createElement('td');
+        monthCell.className = 'fw-semibold';
+        monthCell.textContent = month;
+        row.appendChild(monthCell);
+        
+        // Create EMI cell
+        const emiCell = document.createElement('td');
+        emiCell.className = 'text-success fw-bold';
+        emiCell.textContent = formatCurrency(Math.round(emi));
+        row.appendChild(emiCell);
+        
+        // Create principal cell
+        const principalCell = document.createElement('td');
+        principalCell.className = 'text-primary';
+        principalCell.textContent = formatCurrency(Math.round(principalPaid));
+        row.appendChild(principalCell);
+        
+        // Create interest cell
+        const interestCell = document.createElement('td');
+        interestCell.className = 'text-warning';
+        interestCell.textContent = formatCurrency(Math.round(interest));
+        row.appendChild(interestCell);
+        
+        // Create balance cell
+        const balanceCell = document.createElement('td');
+        balanceCell.className = 'text-muted';
+        balanceCell.textContent = formatCurrency(Math.max(0, Math.round(balance)));
+        row.appendChild(balanceCell);
         
         tableBody.appendChild(row);
         
         // Show only first 12 months by default, rest can be expanded
-        if (month === 12 && tenure > 12) {
+        if (month === 12 && maxTenure > 12) {
             const expandRow = document.createElement('tr');
-            expandRow.innerHTML = `
-                <td colspan="5" class="text-center">
-                    <button class="btn btn-outline-primary btn-sm" onclick="toggleAmortizationView()">
-                        <i class="fas fa-chevron-down me-2"></i>
-                        Show More (${tenure - 12} months)
-                    </button>
-                </td>
-            `;
+            const expandCell = document.createElement('td');
+            expandCell.colSpan = 5;
+            expandCell.className = 'text-center';
+            
+            const expandButton = document.createElement('button');
+            expandButton.className = 'btn btn-outline-primary btn-sm';
+            expandButton.onclick = function() { toggleAmortizationView(); };
+            
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-chevron-down me-2';
+            expandButton.appendChild(icon);
+            
+            const buttonText = document.createTextNode(`Show More (${maxTenure - 12} months)`);
+            expandButton.appendChild(buttonText);
+            
+            expandCell.appendChild(expandButton);
+            expandRow.appendChild(expandCell);
             tableBody.appendChild(expandRow);
             break;
         }
@@ -515,27 +666,65 @@ function resetCalculator() {
 
 // Export results to PDF (placeholder function)
 function exportToPDF() {
-    // This would integrate with a PDF library like jsPDF
-    alert('PDF export feature coming soon!');
+    try {
+        // Sanitize data before export
+        const sanitizedData = {
+            loanType: loanTypeData[selectedLoanType].name,
+            currency: selectedCurrency,
+            amount: sanitizeNumber(document.getElementById('loanAmount').value),
+            rate: sanitizeNumber(document.getElementById('interestRate').value),
+            tenure: sanitizeNumber(document.getElementById('loanTenureMonths').value),
+            emi: sanitizeNumber(document.getElementById('monthlyEMI').textContent.replace(/[^0-9.]/g, '')),
+            interest: sanitizeNumber(document.getElementById('totalInterest').textContent.replace(/[^0-9.]/g, '')),
+            total: sanitizeNumber(document.getElementById('totalAmount').textContent.replace(/[^0-9.]/g, ''))
+        };
+        
+        // Log sanitized data for debugging
+        console.log('Export data:', sanitizedData);
+        
+        // This would integrate with a PDF library like jsPDF
+        alert('PDF export feature coming soon! Data has been sanitized for security.');
+    } catch (error) {
+        console.error('Export error:', error);
+        alert('Could not prepare data for export');
+    }
 }
 
 // Share results (placeholder function)
 function shareResults() {
-    if (navigator.share) {
-        navigator.share({
-            title: 'EMI Calculation Results',
-            text: 'Check out my EMI calculation results!',
-            url: window.location.href
-        });
-    } else {
-        // Fallback for browsers that don't support Web Share API
-        const textArea = document.createElement('textarea');
-        textArea.value = window.location.href;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        alert('Link copied to clipboard!');
+    try {
+        // Sanitize data before sharing
+        const sanitizedData = {
+            loanType: loanTypeData[selectedLoanType].name,
+            currency: selectedCurrency,
+            amount: sanitizeNumber(document.getElementById('loanAmount').value),
+            emi: sanitizeNumber(document.getElementById('monthlyEMI').textContent.replace(/[^0-9.]/g, '')),
+            interest: sanitizeNumber(document.getElementById('totalInterest').textContent.replace(/[^0-9.]/g, '')),
+            total: sanitizeNumber(document.getElementById('totalAmount').textContent.replace(/[^0-9.]/g, ''))
+        };
+        
+        // Log sanitized data for debugging
+        console.log('Share data:', sanitizedData);
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'EMI Calculation Results',
+                text: 'Check out my EMI calculation results!',
+                url: window.location.href
+            });
+        } else {
+            // Fallback for browsers that don't support Web Share API
+            const textArea = document.createElement('textarea');
+            textArea.value = window.location.href;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Link copied to clipboard!');
+        }
+    } catch (error) {
+        console.error('Share error:', error);
+        alert('Could not prepare data for sharing');
     }
 }
 
@@ -553,18 +742,8 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Add service worker for offline functionality (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            })
-            .catch(function(err) {
-                console.log('ServiceWorker registration failed');
-            });
-    });
-}
+// Service worker functionality removed for security reasons
+// If offline functionality is needed in the future, implement a proper service worker
 
 // Toggle car loan extras
 function toggleCarLoanExtras(show) {

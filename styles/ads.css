@@ -1,0 +1,87 @@
+/* ========================================
+   EMI Calculator - Ad Placement Styles
+   ======================================== */
+
+/* Common ad container styles */
+.ad-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5rem auto;
+    min-height: 90px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    clear: both;
+    text-align: center;
+}
+
+/* Horizontal ad container */
+.ad-container-horizontal {
+    min-height: 90px;
+    max-width: 728px;
+}
+
+/* Sidebar ad container */
+.ad-container-sidebar {
+    min-height: 250px;
+    max-width: 300px;
+}
+
+/* Loading state */
+.ad-container.ad-loading {
+    position: relative;
+}
+
+.ad-container.ad-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+}
+
+/* Mobile optimization */
+.ad-container.mobile-optimized {
+    margin: 1rem auto;
+    min-height: 50px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ad-container-horizontal {
+        min-height: 60px;
+        max-width: 320px;
+    }
+    
+    .ad-container-sidebar {
+        min-height: 250px;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Ensure ads don't disrupt mobile experience */
+    .ad-container {
+        margin: 0.75rem auto;
+    }
+}
+
+/* Ezoic specific classes */
+.ezoic-ad {
+    display: inline-block;
+    line-height: 0;
+    border: 0;
+}
+
+/* Ad placement IDs */
+#ezoic-pub-ad-placeholder-101 { min-height: 90px; } /* Header ad */
+#ezoic-pub-ad-placeholder-102 { min-height: 250px; } /* Sidebar ad */
+#ezoic-pub-ad-placeholder-103 { min-height: 90px; } /* Footer ad */
+#ezoic-pub-ad-placeholder-104 { min-height: 90px; } /* Between sections ad */

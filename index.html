@@ -7,12 +7,69 @@
     <meta name="keywords" content="EMI calculator, loan calculator, home loan, car loan, personal loan, education loan, EMI calculation, loan EMI">
     <meta name="author" content="Smart EMI Calculator">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/index.html">
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self'">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
     <title>Smart EMI Calculator - Multi-Loan Support</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
     <link href="styles/index.css" rel="stylesheet">
+    
+    <!-- Resource hints for critical resources -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Structured Data - Calculator Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Smart EMI Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free EMI Calculator for Home, Car, Personal, and Education loans. Calculate monthly EMI, total interest, and view detailed amortization schedule."
+    }
+    </script>
+    
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Smart EMI Calculator",
+      "url": "https://example.com",
+      "logo": "https://example.com/logo.png",
+      "description": "Free EMI Calculator for Home, Car, Personal, and Education loans."
+    }
+    </script>
+    
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://example.com"
+      }]
+    }
+    </script>
 </head>
 <body>
+    <!-- Ezoic - top_of_page - top_of_page -->
+    <div id="ezoic-pub-ad-placeholder-101" class="ad-container ad-container-horizontal"></div>
+    <!-- End Ezoic - top_of_page -->
+    
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -78,8 +135,12 @@
                             </div>
                         </div>
                     </div>
+                
+                <!-- Ezoic - between_sections - between_sections -->
+                <div id="ezoic-pub-ad-placeholder-104" class="ad-container ad-container-horizontal"></div>
+                <!-- End Ezoic - between_sections -->
 
-                    <!-- Loan Details Form -->
+                <!-- Loan Details Form -->
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="currencySelect" class="form-label fw-bold">
@@ -361,7 +422,12 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous" defer></script>
+    <script src="script.js" defer></script>
+    <script src="js/ad-manager.js" async></script>
+    
+    <!-- Ezoic - bottom_of_page - bottom_of_page -->
+    <div id="ezoic-pub-ad-placeholder-103" class="ad-container ad-container-horizontal"></div>
+    <!-- End Ezoic - bottom_of_page -->
 </body>
 </html>

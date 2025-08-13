@@ -53,6 +53,8 @@ Visit the [demo page](demo.html) to see sample calculations with different curre
 - **Icons**: Font Awesome 6
 - **Responsive**: Mobile-first design approach
 - **Performance**: Debounced input handling for smooth UX
+- **Security**: Content Security Policy (CSP), Subresource Integrity (SRI), HTTPS enforcement, input sanitization
+- **Monetization**: Unintrusive Ezoic ad integration
 
 ## Browser Support
 
@@ -68,3 +70,13 @@ This project is open source and available under the MIT License.
 ## Contributing
 
 Feel free to submit issues, feature requests, or pull requests to improve the calculator.
+
+## Ad Integration
+
+This application includes unintrusive ad placements for Ezoic integration:
+
+- **Ad Locations**: Strategic placements at the top of the page, between sections, and at the bottom
+- **Responsive Design**: Ads automatically adjust to different screen sizes
+- **User Experience**: Designed to not interfere with core functionality
+- **Ad Management**: Custom ad manager script handles loading states and fallbacks
+- **Mobile Optimization**: Special handling for mobile devices to ensure minimal disruption
