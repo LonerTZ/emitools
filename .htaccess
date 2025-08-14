@@ -1,6 +1,12 @@
-# Enforce HTTPS
+# Ezoic Ads.txt Redirect
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    
+    # Redirect ads.txt to Ezoic's ads.txt manager
+    # Replace [YOUR_DOMAIN].com with your actual domain when deploying
+    RewriteRule ^ads\.txt$ https://srv.adstxtmanager.com/19390/%{HTTP_HOST} [R=301,L]
+    
+    # Enforce HTTPS
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>

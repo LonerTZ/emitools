@@ -1,0 +1,9 @@
+# This file is managed by Ezoic
+# For the most up-to-date ads.txt file, please visit:
+# https://srv.adstxtmanager.com/19390/smartemi.nortech.co.tz
+
+# Production domain: smartemi.nortech.co.tz
+# This file will be automatically redirected to Ezoic's ads.txt manager
+
+# Ezoic ads.txt entries will be automatically managed
+# when you set up the proper redirect or use Ezoic's ads.txt manager
