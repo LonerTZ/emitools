@@ -24,14 +24,14 @@ Created a PHP redirect script as an alternative method.
 ## Deployment Instructions
 
 ### For Production Deployment:
-1. Ensure smartemi.nortech.co.tz is properly configured with Ezoic
+1. Ensure smartcalctools.click is properly configured with Ezoic
 2. The .htaccess redirect will automatically use your domain name
-3. Test by visiting `smartemi.nortech.co.tz/ads.txt`
+3. Test by visiting `smartcalctools.click/ads.txt`
 4. Verify you see a list of authorized ad sellers
 
 ### Testing
 - Local testing: `http://localhost:8000/ads.txt`
-- Production testing: `https://smartemi.nortech.co.tz/ads.txt`
+- Production testing: `https://smartcalctools.click/ads.txt`
 
 ## Benefits
 - **Automatic Updates**: Ezoic manages the ads.txt content
