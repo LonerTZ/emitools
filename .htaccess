@@ -4,7 +4,7 @@
     
     # Redirect ads.txt to Ezoic's ads.txt manager
     # Replace [YOUR_DOMAIN].com with your actual domain when deploying
-    RewriteRule ^ads\.txt$ https://srv.adstxtmanager.com/19390/%{HTTP_HOST} [R=301,L]
+    Redirect 301 /ads.txt https://srv.adstxtmanager.com/19390/smartcalctools.click
     
     # Enforce HTTPS
     RewriteCond %{HTTPS} off
